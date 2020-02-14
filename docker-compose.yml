@@ -1,0 +1,8 @@
+version: '2.3'
+
+services:
+  weather:
+    image: weather-client
+    build: .
+    ports:
+      - "8080:8080"

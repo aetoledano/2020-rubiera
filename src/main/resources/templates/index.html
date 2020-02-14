@@ -3,8 +3,6 @@
 
 <head>
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script th:src="@{/js/weather.js}"></script>
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/util.css}"/>
 
@@ -13,39 +11,56 @@
 <body>
 
 <div class="limiter">
-    <div class="container-login100">
+    <div id="error" class="container-login100" style="display: none;">
+        <span id="error-msg" class="login100-form-title p-b-26">
+        </span>
+    </div>
+    <div id="busy" class="container-login100" style="display: none;">
         <div class="wrap-login100">
-            <form class="login100-form validate-form">
+        <span class="login100-form-title p-b-26">
+            Working, please wait ...
+        </span>
+            <div class="container-login100-form-btn">
+                <div class="wrap-login100-form-btn">
+                    <div class="login100-form-bgbtn"></div>
+                    <button class="login100-form-btn" onclick="useGeolocation(); return false;">
+                        Reload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="weather-report" class="container-login100" style="display: none;">
+        <div class="wrap-login100">
+            <span id="city" class="login100-form-title p-b-26"></span>
 
-                <span id="city" class="login100-form-title p-b-26"></span>
-
-                <span class="login100-form-title p-b-26">
+            <span class="login100-form-title p-b-26">
                     <img id="icon" src="">
                 </span>
-                
-                <span id="sky" class="login100-form-title p-b-26 fs-20"></span>
 
-                <div class="text-center">
-                    <span id="extra" class="txt1"></span>
+            <span id="sky" class="login100-form-title p-b-26 fs-20"></span>
+
+            <div class="text-center">
+                <span id="extra" class="txt1"></span>
+            </div>
+
+            <div class="container-login100-form-btn">
+                <div class="wrap-login100-form-btn">
+                    <div class="login100-form-bgbtn"></div>
+                    <button class="login100-form-btn" onclick="useGeolocation(); return false;">
+                        Reload
+                    </button>
                 </div>
+            </div>
 
-                <div class="container-login100-form-btn">
-                    <div class="wrap-login100-form-btn">
-                        <div class="login100-form-bgbtn"></div>
-                        <button class="login100-form-btn">
-                            Use my location
-                        </button>
-                    </div>
-                </div>
-
-            </form>
         </div>
     </div>
 </div>
 
 </body>
 
-<script>
-    loadWeatherStatus("3530597");
-</script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/weather.js}"></script>
+<script>useGeolocation();</script>
+
 </html>

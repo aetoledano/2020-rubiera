@@ -9,6 +9,8 @@ public class Constants {
     public static final String CITY_ID_PLACEHOLDER = "CITY_ID_VALUE";
     public static final String ICON_ID_PLACEHOLDER = "ICON_ID_PLACEHOLDER";
 
+    public static final long OPEN_WEATHER_MAP_REFRESH_INTERVAL = 600000;
+
     //
     // OpenWeatherMap
     //

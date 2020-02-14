@@ -1,23 +1,38 @@
-const COMPONENTID = "weather-component";
+var ERROR_DIV = document.getElementById("error");
+var ERROR_MSG = document.getElementById("error-msg");
+var BUSY_DIV = document.getElementById("busy");
+var WEATHER_REPORT = document.getElementById("weather-report");
 
-function loadWeatherStatus(cityId, lat, lon) {
-    if (cityId) {
-        axios.get('/weather/' + cityId)
-            .then(function (response) {
-                showWeatherReport(response.data, COMPONENTID);
-            })
-            .catch(function (error) {
-                console.log(error);
-                document.getElementById(COMPONENTID).innerHTML = "ERROR";
-            });
-    } else if (lat && lon) {
+function useGeolocation() {
+    ERROR_DIV.setAttribute("style", "display: none;");
+    BUSY_DIV.setAttribute("style", "display: none;");
+    WEATHER_REPORT.setAttribute("style", "display: none;");
 
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(loadWeatherStatus);
+    } else {
+        showGlobalError("Geolocation is not supported by this browser.");
     }
 }
 
-function showWeatherReport(data, componentId) {
-    console.log(data);
-    //div = document.getElementById(componentId);
+function loadWeatherStatus(position) {
+    axios.get('/weather?lat=' + position.coords.latitude + '&lon=' + position.coords.longitude)
+        .then(function (response) {
+            showWeatherReport(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+            r = error.response;
+            if (r.status == 422) {
+                showWorkingStatus();
+            } else {
+                showGlobalError(r.data.msg);
+            }
+        });
+}
+
+function showWeatherReport(data) {
+    WEATHER_REPORT.setAttribute("style", "");
 
     city = document.getElementById("city");
     city.innerHTML = data.name;
@@ -36,4 +51,13 @@ function showWeatherReport(data, componentId) {
 
     extra = document.getElementById("extra");
     extra.innerHTML = extras;
+}
+
+function showWorkingStatus() {
+    BUSY_DIV.setAttribute("style", "");
+}
+
+function showGlobalError(error) {
+    ERROR_DIV.setAttribute("style", "");
+    ERROR_MSG.innerHTML = error;
 }
